@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shariti's Command Center 🌙</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Mono:wght@300;400;500&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream:        #F5F0E8;
+    --warm-white:   #FAF7F2;
+    --parchment:    #EDE5D8;
+    --hay:          #C8A96E;
+    --hay-light:    #E8D5A8;
+    --hay-dark:     #8B6F3E;
+    --earth:        #5C4A32;
+    --forest:       #3D5A3E;
+    --forest-light: #5C7D5E;
+    --forest-muted: #8AAD8B;
+    --forest-pale:  #EEF5EE;
+    --rust:         #B85C38;
+    --rust-light:   #F2DDD6;
+    --ink:          #2A2118;
+    --muted:        #8A7A68;
+    --border:       #DDD4C4;
+    --moon:         #D4C5A9;
+    --shadow:       rgba(42,33,24,0.08);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    font-family: 'Jost', sans-serif;
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* ── Noise texture ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 0;
+  }
+
+  /* ── Navigation ── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(245,240,232,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 56px;
+  }
+
+  .nav-brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px; font-weight: 600;
+    color: var(--earth); letter-spacing: 0.02em;
+  }
+
+  .nav-brand span { color: var(--forest); font-style: italic; }
+
+  .nav-links {
+    display: flex; gap: 4px; list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none;
+    padding: 6px 12px; border-radius: 20px;
+    transition: all 0.2s;
+  }
+
+  .nav-links a:hover { background: var(--parchment); color: var(--earth); }
+  .nav-links a.active { background: var(--forest); color: #fff; }
+
+  /* ── Hero ── */
+  .hero {
+    text-align: center;
+    padding: 64px 24px 48px;
+    position: relative; z-index: 1;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--hay-dark); margin-bottom: 16px;
+  }
+
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 8vw, 64px);
+    color: var(--earth); line-height: 1.05; font-weight: 300;
+    margin-bottom: 8px;
+  }
+
+  .hero h1 em { color: var(--forest); font-style: italic; font-weight: 400; }
+
+  .hero-sub {
+    font-size: 13px; color: var(--muted); font-weight: 300;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── Main layout ── */
+  .main { max-width: 760px; margin: 0 auto; padding: 0 20px 80px; position: relative; z-index: 1; }
+
+  /* ── Section ── */
+  .section { margin-bottom: 64px; }
+
+  .section-header {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 24px; padding-bottom: 12px;
+    border-bottom: 1.5px solid var(--border);
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .section-icon { font-size: 20px; }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px; font-weight: 600; color: var(--earth);
+  }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--muted); margin-left: auto;
+  }
+
+  /* ── Cards ── */
+  .card {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: 16px; padding: 22px 24px;
+    margin-bottom: 14px;
+    box-shadow: 0 2px 16px var(--shadow);
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .card-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 16px;
+  }
+
+  .card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px; font-weight: 600; color: var(--earth);
+  }
+
+  .badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 3px 10px; border-radius: 20px;
+  }
+
+  .badge-green  { background: #D6E8D6; color: var(--forest); }
+  .badge-amber  { background: #F0E4C8; color: var(--hay-dark); }
+  .badge-rust   { background: #F2DDD6; color: var(--rust); }
+  .badge-moon   { background: #EDE5D8; color: var(--earth); }
+
+  /* ── Line items ── */
+  .line {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 8px 0; border-bottom: 1px dashed var(--border);
+    font-size: 13.5px;
+  }
+  .line:last-child { border-bottom: none; }
+  .line-label { color: var(--muted); font-weight: 300; }
+  .line-val {
+    font-family: 'DM Mono', monospace;
+    font-size: 12.5px; color: var(--ink); font-weight: 500;
+  }
+  .line-note { font-size: 11px; color: var(--muted); font-style: italic; }
+  .line.total {
+    border-top: 1.5px solid var(--border); border-bottom: none;
+    padding-top: 12px; margin-top: 4px;
+  }
+  .line.total .line-label { color: var(--ink); font-weight: 500; font-size: 14px; }
+  .line.total .line-val { font-size: 15px; color: var(--earth); font-weight: 500; }
+
+  /* ── Callout ── */
+  .callout {
+    border-radius: 16px; padding: 20px 24px; margin-bottom: 14px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    box-shadow: 0 2px 16px var(--shadow);
+    animation: fadeUp 0.5s ease both;
+  }
+  .callout-green { background: linear-gradient(135deg,#EAF4EB,#D8EDDA); border: 1px solid #B5D9B8; }
+  .callout-amber { background: linear-gradient(135deg,#F5EDD8,#EDE0C4); border: 1px solid #D9C49A; }
+  .callout-moon  { background: linear-gradient(135deg,#F0EBE0,#E8DFD0); border: 1px solid var(--border); }
+
+  .callout-text { font-size: 13px; line-height: 1.6; }
+  .callout-text.green { color: var(--forest); }
+  .callout-text.amber { color: var(--hay-dark); }
+  .callout-text.moon  { color: var(--earth); }
+  .callout-text strong {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px; display: block; margin-bottom: 2px; font-weight: 600;
+  }
+  .callout-amount {
+    font-family: 'DM Mono', monospace;
+    font-size: 28px; font-weight: 500; white-space: nowrap; text-align: right; line-height: 1.1;
+  }
+  .callout-amount.green { color: var(--forest); }
+  .callout-amount.amber { color: var(--hay-dark); }
+  .callout-amount.moon  { color: var(--earth); }
+  .callout-amount small { font-size: 11px; opacity: 0.6; display: block; }
+
+  /* ── Income bar ── */
+  .income-card {
+    background: var(--warm-white); border: 1px solid var(--border);
+    border-radius: 16px; padding: 22px 24px; margin-bottom: 14px;
+    box-shadow: 0 2px 16px var(--shadow); animation: fadeUp 0.5s ease both;
+  }
+  .income-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+  .income-lbl { font-family: 'Cormorant Garamond', serif; font-size: 16px; color: var(--earth); }
+  .income-amt { font-family: 'DM Mono', monospace; font-size: 22px; font-weight: 500; color: var(--forest); }
+
+  .stacked-bar {
+    display: flex; height: 10px; border-radius: 99px;
+    overflow: hidden; border: 1px solid var(--border); margin-bottom: 12px;
+  }
+  .bar-seg { height: 100%; }
+
+  .bar-legend { display: flex; gap: 16px; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); font-family: 'DM Mono', monospace; }
+  .legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+  /* ── Savings grid ── */
+  .savings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+  .savings-item {
+    background: var(--warm-white); border: 1px solid var(--border);
+    border-radius: 12px; padding: 16px;
+    box-shadow: 0 2px 8px var(--shadow); animation: fadeUp 0.5s ease both;
+  }
+  .savings-icon { font-size: 20px; margin-bottom: 8px; }
+  .savings-name { font-size: 12px; color: var(--muted); margin-bottom: 4px; font-weight: 300; }
+  .savings-amt { font-family: 'DM Mono', monospace; font-size: 18px; color: var(--forest); font-weight: 500; }
+  .savings-note { font-size: 11px; color: var(--muted); margin-top: 4px; font-style: italic; }
+
+  /* ── Seasonal tabs ── */
+  .season-tabs { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+  .season-tab {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 6px 14px; border-radius: 20px; cursor: pointer;
+    border: 1px solid var(--border); background: var(--cream);
+    color: var(--muted); transition: all 0.2s;
+  }
+  .season-tab.active { background: var(--forest); color: #fff; border-color: var(--forest); }
+  .season-panel { display: none; }
+  .season-panel.active { display: block; }
+
+  /* ── Gypsy info ── */
+  .gypsy-hero {
+    background: linear-gradient(150deg, #EEF5EE, var(--warm-white));
+    border: 1.5px solid var(--forest-muted);
+    border-radius: 16px; padding: 26px;
+    margin-bottom: 14px; animation: fadeUp 0.5s ease both;
+    box-shadow: 0 2px 16px var(--shadow);
+  }
+
+  .gypsy-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--forest); background: #D6E8D6;
+    display: inline-block; padding: 3px 10px; border-radius: 20px; margin-bottom: 12px;
+  }
+
+  .gypsy-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px; font-weight: 600; color: var(--earth); margin-bottom: 4px;
+  }
+
+  .gypsy-sub { font-size: 13px; color: var(--muted); margin-bottom: 20px; font-weight: 300; }
+
+  .gypsy-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+
+  .stat-item {
+    background: var(--cream); border-radius: 10px;
+    padding: 12px; border: 1px solid var(--border); text-align: center;
+  }
+  .stat-val { font-family: 'DM Mono', monospace; font-size: 18px; color: var(--forest); font-weight: 500; display: block; }
+  .stat-lbl { font-size: 10px; color: var(--muted); margin-top: 3px; letter-spacing: 0.05em; }
+
+  /* ── Care team ── */
+  .care-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+  .care-item {
+    background: var(--warm-white); border: 1px solid var(--border);
+    border-radius: 12px; padding: 16px;
+    box-shadow: 0 2px 8px var(--shadow);
+  }
+  .care-role { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--hay-dark); margin-bottom: 6px; }
+  .care-name { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 2px; }
+  .care-detail { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+  /* ── Vet calendar ── */
+  .vet-calendar { display: flex; flex-direction: column; gap: 10px; }
+  .vet-item {
+    display: flex; align-items: center; gap: 14px;
+    background: var(--warm-white); border: 1px solid var(--border);
+    border-radius: 12px; padding: 14px 16px;
+    box-shadow: 0 2px 8px var(--shadow);
+  }
+  .vet-item.done { opacity: 0.6; }
+  .vet-month {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; font-weight: 500; color: var(--forest);
+    min-width: 36px; text-align: center; line-height: 1.2;
+    text-transform: uppercase;
+  }
+  .vet-divider { width: 1px; height: 32px; background: var(--border); flex-shrink: 0; }
+  .vet-content { flex: 1; }
+  .vet-title { font-size: 13.5px; font-weight: 500; color: var(--ink); }
+  .vet-detail { font-size: 11.5px; color: var(--muted); margin-top: 2px; }
+  .vet-cost {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px; color: var(--forest); font-weight: 500; white-space: nowrap;
+  }
+  .vet-done { font-size: 16px; }
+
+  /* ── Dewormer checklist ── */
+  .deworm-list { display: flex; flex-direction: column; gap: 10px; }
+  .deworm-item {
+    display: flex; align-items: center; gap: 14px;
+    background: var(--warm-white); border: 1px solid var(--border);
+    border-radius: 12px; padding: 14px 16px;
+    cursor: pointer; transition: all 0.2s;
+    box-shadow: 0 2px 8px var(--shadow);
+  }
+  .deworm-item:hover { border-color: var(--forest-muted); }
+  .deworm-item.checked { background: var(--forest-pale); border-color: var(--forest-muted); }
+
+  .deworm-checkbox {
+    width: 22px; height: 22px; border-radius: 50%;
+    border: 2px solid var(--border); flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s; font-size: 12px;
+  }
+  .deworm-item.checked .deworm-checkbox {
+    background: var(--forest); border-color: var(--forest); color: #fff;
+  }
+
+  .deworm-label { font-size: 13.5px; font-weight: 400; color: var(--ink); flex: 1; }
+  .deworm-item.checked .deworm-label { color: var(--forest); }
+  .deworm-date { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); }
+  .deworm-item.checked .deworm-date { color: var(--forest-muted); }
+
+  /* ── Show names ── */
+  .show-names { display: flex; flex-direction: column; gap: 8px; }
+  .show-name-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 16px; background: var(--cream);
+    border-radius: 10px; border: 1px solid var(--border);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px; color: var(--earth); font-style: italic;
+  }
+  .show-name-star { color: var(--hay); font-style: normal; }
+
+  /* ── Diet TBD ── */
+  .diet-tbd {
+    background: linear-gradient(135deg, #F5EDD8, #EDE0C4);
+    border: 1px solid #D9C49A; border-radius: 16px;
+    padding: 24px; text-align: center;
+    animation: fadeUp 0.5s ease both;
+  }
+  .diet-tbd-icon { font-size: 32px; margin-bottom: 12px; }
+  .diet-tbd-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px; color: var(--earth); margin-bottom: 8px; font-weight: 600;
+  }
+  .diet-tbd-text { font-size: 13px; color: var(--hay-dark); line-height: 1.6; }
+
+  /* ── Psyllium protocol ── */
+  .protocol-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .protocol-item {
+    background: var(--cream); border-radius: 10px;
+    padding: 14px; border: 1px solid var(--border); text-align: center;
+  }
+  .protocol-val { font-family: 'DM Mono', monospace; font-size: 16px; color: var(--forest); font-weight: 500; margin-bottom: 4px; }
+  .protocol-lbl { font-size: 11px; color: var(--muted); }
+
+  /* ── Life admin ── */
+  .bill-list { display: flex; flex-direction: column; gap: 8px; }
+  .bill-item {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 14px; background: var(--cream);
+    border-radius: 10px; border: 1px solid var(--border); font-size: 13px;
+  }
+  .bill-name { color: var(--ink); font-weight: 400; }
+  .bill-right { display: flex; align-items: center; gap: 12px; }
+  .bill-date { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); }
+  .bill-flag {
+    font-size: 10px; padding: 2px 8px; border-radius: 10px;
+    font-family: 'DM Mono', monospace; letter-spacing: 0.08em;
+  }
+  .flag-amber { background: #F0E4C8; color: var(--hay-dark); }
+  .flag-rust  { background: #F2DDD6; color: var(--rust); }
+
+  /* ── Info box ── */
+  .info-box {
+    background: #EFF6EF; border: 1px solid #B5D9B8; border-radius: 10px;
+    padding: 10px 14px; font-size: 12px; color: var(--forest);
+    margin-top: 12px; display: flex; gap: 8px; align-items: flex-start; line-height: 1.6;
+  }
+  .warn-box {
+    background: #FBF0EC; border: 1px solid #F2C8BC; border-radius: 10px;
+    padding: 10px 14px; font-size: 12px; color: var(--rust);
+    margin-top: 12px; display: flex; gap: 8px; align-items: flex-start; line-height: 1.6;
+  }
+
+  /* ── Animations ── */
+  .d1{animation-delay:0.05s} .d2{animation-delay:0.10s} .d3{animation-delay:0.15s}
+  .d4{animation-delay:0.20s} .d5{animation-delay:0.25s} .d6{animation-delay:0.30s}
+  .d7{animation-delay:0.35s} .d8{animation-delay:0.40s}
+
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(16px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+
+  /* ── Footer ── */
+  .footer {
+    text-align: center; padding: 32px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; letter-spacing: 0.12em; color: var(--muted); opacity: 0.5;
+  }
+
+  /* ── Responsive ── */
+  @media(max-width:520px) {
+    .savings-grid { grid-template-columns: 1fr; }
+    .care-grid { grid-template-columns: 1fr; }
+    .gypsy-stats { grid-template-columns: 1fr 1fr; }
+    .protocol-grid { grid-template-columns: 1fr 1fr; }
+    nav .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav>
+  <div class="nav-brand">Shariti's <span>Command Center</span> 🌙</div>
+  <ul class="nav-links">
+    <li><a href="#finance" class="active">Finance</a></li>
+    <li><a href="#gypsy">Gypsy</a></li>
+    <li><a href="#admin">Admin</a></li>
+  </ul>
+</nav>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-eyebrow">Personal Dashboard · 2026</div>
+  <h1>Shariti's<br><em>Command Center</em></h1>
+  <div class="hero-sub">Finance · Horse Care · Life Admin</div>
+</div>
+
+<div class="main">
+
+  <!-- ════════════════════════════════════════════
+       SECTION 1 — PERSONAL FINANCE
+  ═════════════════════════════════════════════ -->
+  <div class="section" id="finance">
+    <div class="section-header d1">
+      <span class="section-icon">💰</span>
+      <h2 class="section-title">Personal Finance</h2>
+      <span class="section-label">May 2026</span>
+    </div>
+
+    <!-- Income -->
+    <div class="income-card d2">
+      <div class="income-row">
+        <div class="income-lbl">Monthly Income</div>
+        <div class="income-amt">$3,850</div>
+      </div>
+      <div class="stacked-bar">
+        <div class="bar-seg" style="width:32%; background:var(--hay)"></div>
+        <div class="bar-seg" style="width:19.7%; background:var(--forest-muted)"></div>
+        <div class="bar-seg" style="width:17.5%; background:var(--hay-light)"></div>
+        <div class="bar-seg" style="width:23.4%; background:#D6E8D6"></div>
+        <div class="bar-seg" style="width:7.4%; background:#E2DAD0"></div>
+      </div>
+      <div class="bar-legend">
+        <div class="legend-item"><div class="legend-dot" style="background:var(--hay)"></div>Fixed ($1,231)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--forest-muted)"></div>Horse (~$758)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--hay-light)"></div>Flexible ($675)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#D6E8D6"></div>Savings ($900)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#E2DAD0"></div>Buffer (~$286)</div>
+      </div>
+    </div>
+
+    <!-- Fixed Expenses -->
+    <div class="card d3">
+      <div class="card-header">
+        <div class="card-title">Fixed Monthly Expenses</div>
+        <span class="badge badge-amber">$1,231.09</span>
+      </div>
+      <div class="line"><span class="line-label">Auto payment</span><span class="line-val">$667.00</span></div>
+      <div class="line"><span class="line-label">Auto insurance · Progressive</span><span class="line-val">$143.00</span></div>
+      <div class="line"><span class="line-label">Student loans</span><span class="line-val">$99.00</span></div>
+      <div class="line"><span class="line-label">Taxes</span><span class="line-val">$100.00</span></div>
+      <div class="line"><span class="line-label">Phone · Mint Mobile</span><span class="line-val">$43.13</span></div>
+      <div class="line"><span class="line-label">Tolls</span><span class="line-val">$120.00</span></div>
+      <div class="line"><span class="line-label">Apple Music</span><span class="line-val">$10.99</span></div>
+      <div class="line"><span class="line-label">Apple TV <span class="line-note">— cancel end of F1 season</span></span><span class="line-val">$12.99</span></div>
+      <div class="line"><span class="line-label">iCloud</span><span class="line-val">$9.99</span></div>
+      <div class="line"><span class="line-label">Monarch Budget</span><span class="line-val">$14.99</span></div>
+      <div class="line"><span class="line-label">Wyze Cam Plus</span><span class="line-val">$9.99</span></div>
+      <div class="line total"><span class="line-label">Total Fixed</span><span class="line-val">$1,231.09</span></div>
+    </div>
+
+    <!-- Horse Budget -->
+    <div class="card d4">
+      <div class="card-header">
+        <div class="card-title">Horse Budget · Seasonal</div>
+        <span class="badge badge-green">DIY Board</span>
+      </div>
+
+      <div class="season-tabs">
+        <div class="season-tab active" onclick="showSeason('summer')">☀️ Summer</div>
+        <div class="season-tab" onclick="showSeason('fall')">🍂 Fall</div>
+        <div class="season-tab" onclick="showSeason('winter')">❄️ Winter</div>
+        <div class="season-tab" onclick="showSeason('spring')">🌱 Spring</div>
+      </div>
+
+      <div id="season-summer" class="season-panel active">
+        <div class="line"><span class="line-label">Board (incl. feeding fee)</span><span class="line-val">$425.00</span></div>
+        <div class="line"><span class="line-label">Feed (TBD — Connie @ 17 Hands)</span><span class="line-val">~$60.00</span></div>
+        <div class="line"><span class="line-label">Metamucil · 7 days on/3 weeks off</span><span class="line-val">$10.00</span></div>
+        <div class="line"><span class="line-label">Hay · T/A + Coastal mix · ~12–14 bales</span><span class="line-val">~$162.00</span></div>
+        <div class="line"><span class="line-label">Farrier · every 5 weeks</span><span class="line-val">$43.00</span></div>
+        <div class="line"><span class="line-label">Insurance · Hartford</span><span class="line-val">$31.00</span></div>
+        <div class="line total"><span class="line-label">☀️ Summer Total</span><span class="line-val">~$731</span></div>
+      </div>
+
+      <div id="season-fall" class="season-panel">
+        <div class="line"><span class="line-label">Board (incl. feeding fee)</span><span class="line-val">$425.00</span></div>
+        <div class="line"><span class="line-label">Feed (TBD — Connie @ 17 Hands)</span><span class="line-val">~$60.00</span></div>
+        <div class="line"><span class="line-label">Metamucil · 7 days on/3 weeks off</span><span class="line-val">$10.00</span></div>
+        <div class="line"><span class="line-label">Hay · T/A + Coastal mix · ~14–16 bales</span><span class="line-val">~$189.00</span></div>
+        <div class="line"><span class="line-label">Farrier · every 5 weeks</span><span class="line-val">$43.00</span></div>
+        <div class="line"><span class="line-label">Insurance · Hartford</span><span class="line-val">$31.00</span></div>
+        <div class="line total"><span class="line-label">🍂 Fall Total</span><span class="line-val">~$758</span></div>
+      </div>
+
+      <div id="season-winter" class="season-panel">
+        <div class="line"><span class="line-label">Board (incl. feeding fee)</span><span class="line-val">$425.00</span></div>
+        <div class="line"><span class="line-label">Feed (TBD — Connie @ 17 Hands)</span><span class="line-val">~$60.00</span></div>
+        <div class="line"><span class="line-label">Metamucil · 7 days on/3 weeks off</span><span class="line-val">$10.00</span></div>
+        <div class="line"><span class="line-label">Hay · T/A + Coastal mix · ~16–18 bales</span><span class="line-val">~$216.00</span></div>
+        <div class="line"><span class="line-label">Farrier · every 5 weeks</span><span class="line-val">$43.00</span></div>
+        <div class="line"><span class="line-label">Insurance · Hartford</span><span class="line-val">$31.00</span></div>
+        <div class="line total"><span class="line-label">❄️ Winter Total</span><span class="line-val">~$785</span></div>
+      </div>
+
+      <div id="season-spring" class="season-panel">
+        <div class="line"><span class="line-label">Board (incl. feeding fee)</span><span class="line-val">$425.00</span></div>
+        <div class="line"><span class="line-label">Feed (TBD — Connie @ 17 Hands)</span><span class="line-val">~$60.00</span></div>
+        <div class="line"><span class="line-label">Metamucil · 7 days on/3 weeks off</span><span class="line-val">$10.00</span></div>
+        <div class="line"><span class="line-label">Hay · T/A + Coastal mix · ~14–16 bales</span><span class="line-val">~$189.00</span></div>
+        <div class="line"><span class="line-label">Farrier · every 5 weeks</span><span class="line-val">$43.00</span></div>
+        <div class="line"><span class="line-label">Insurance · Hartford</span><span class="line-val">$31.00</span></div>
+        <div class="line total"><span class="line-label">🌱 Spring Total</span><span class="line-val">~$758</span></div>
+      </div>
+
+      <div class="info-box">
+        <span>🌿</span>
+        <span>Hay from Horstmeyer Farm & Garden · Sanford FL · (407) 322-1235 · T/A 2-string $16.99/bale · Coastal $9.99/bale · Free delivery on orders $400+</span>
+      </div>
+    </div>
+
+    <!-- Flexible Spending -->
+    <div class="card d5">
+      <div class="card-header">
+        <div class="card-title">Flexible Spending</div>
+        <span class="badge badge-amber">$675 / mo</span>
+      </div>
+      <div class="line"><span class="line-label">Groceries</span><span class="line-val">$300.00</span></div>
+      <div class="line"><span class="line-label">Dining & Bars</span><span class="line-val">$150.00</span></div>
+      <div class="line"><span class="line-label">Shopping</span><span class="line-val">$150.00</span></div>
+      <div class="line"><span class="line-label">Horse miscellaneous</span><span class="line-val">$75.00</span></div>
+      <div class="line total"><span class="line-label">Total Flexible</span><span class="line-val">$675.00</span></div>
+    </div>
+
+    <!-- Savings -->
+    <div class="card d5">
+      <div class="card-header">
+        <div class="card-title">Savings & Goals</div>
+        <span class="badge badge-green">$900 / mo</span>
+      </div>
+      <div class="savings-grid">
+        <div class="savings-item">
+          <div class="savings-icon">🐴</div>
+          <div class="savings-name">Riding Lessons</div>
+          <div class="savings-amt">$300/mo</div>
+          <div class="savings-note">Monthly lessons</div>
+        </div>
+        <div class="savings-item">
+          <div class="savings-icon">✈️</div>
+          <div class="savings-name">Vacation Fund</div>
+          <div class="savings-amt">$200/mo</div>
+          <div class="savings-note">~$2,400/year</div>
+        </div>
+        <div class="savings-item">
+          <div class="savings-icon">💳</div>
+          <div class="savings-name">Credit Card Buffer</div>
+          <div class="savings-amt">$150/mo</div>
+          <div class="savings-note">Peace of mind fund</div>
+        </div>
+        <div class="savings-item">
+          <div class="savings-icon">📈</div>
+          <div class="savings-name">Marcus HYSA</div>
+          <div class="savings-amt">$200/mo</div>
+          <div class="savings-note">~4.4% APY · ~$2,400/year</div>
+        </div>
+      </div>
+      <div class="line" style="margin-top:12px"><span class="line-label">🏥 Vet savings</span><span class="line-val">$50/mo · ~$600/year</span></div>
+      <div class="line total"><span class="line-label">Total Savings & Goals</span><span class="line-val">$900.00</span></div>
+    </div>
+
+    <!-- Remaining callouts -->
+    <div class="callout callout-green d6">
+      <div class="callout-text green">
+        <strong>Monthly Buffer</strong>
+        After all expenses, horse, flexible & savings
+      </div>
+      <div class="callout-amount green">~$286<small>/ month</small></div>
+    </div>
+
+    <div class="callout callout-moon d6">
+      <div class="callout-text moon">
+        <strong>Annual Savings & Goals</strong>
+        Lessons + vacation + HYSA + vet + buffer
+      </div>
+      <div class="callout-amount moon">~$14,232<small>/ year</small></div>
+    </div>
+
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       SECTION 2 — GYPSY
+  ═════════════════════════════════════════════ -->
+  <div class="section" id="gypsy">
+    <div class="section-header d1">
+      <span class="section-icon">🐴</span>
+      <h2 class="section-title">Gypsy</h2>
+      <span class="section-label">Winter Garden Equestrian</span>
+    </div>
+
+    <!-- Gypsy hero -->
+    <div class="gypsy-hero d2">
+      <div class="gypsy-tag">🩵 BLM Mustang Mare</div>
+      <div class="gypsy-name">Gypsy 🌙</div>
+      <div class="gypsy-sub">Winter Garden Equestrian · Kissimmee, FL</div>
+      <div class="gypsy-stats">
+        <div class="stat-item">
+          <span class="stat-val">8</span>
+          <div class="stat-lbl">Years Old</div>
+        </div>
+        <div class="stat-item">
+          <span class="stat-val">940</span>
+          <div class="stat-lbl">Pounds</div>
+        </div>
+        <div class="stat-item">
+          <span class="stat-val">14.2H</span>
+          <div class="stat-lbl">Height</div>
+        </div>
+      </div>
+      <div style="margin-top:12px; font-size:12px; color:var(--muted); font-style:italic;">
+        Born July 5, 2017 · 🎂 Next birthday in July
+      </div>
+    </div>
+
+    <!-- Care team -->
+    <div class="card d3">
+      <div class="card-header">
+        <div class="card-title">Care Team</div>
+        <span class="badge badge-green">Contacts</span>
+      </div>
+      <div class="care-grid">
+        <div class="care-item">
+          <div class="care-role">Veterinarian</div>
+          <div class="care-name">Dr. Danielle McCallister</div>
+          <div class="care-detail">Orlando Equine Veterinary Care<br>9311 Charles E Limpus Rd<br>Orlando, FL 32836<br>(407) 489-7270</div>
+        </div>
+        <div class="care-item">
+          <div class="care-role">Chiropractor</div>
+          <div class="care-name">Dr. Raquel</div>
+          <div class="care-detail">Palmetto Chiropractor<br>$140/visit<br>Frequency TBD</div>
+        </div>
+        <div class="care-item">
+          <div class="care-role">Nutritionist</div>
+          <div class="care-name">Connie</div>
+          <div class="care-detail">17 Hands Nutrition<br>Consult post-purchase<br>Diet TBD</div>
+        </div>
+        <div class="care-item">
+          <div class="care-role">Insurance</div>
+          <div class="care-name">Hartford Insurance</div>
+          <div class="care-detail">Major Medical $7,500<br>+ Colic Surgery<br>~$31/month · $373/year</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Diet -->
+    <div class="diet-tbd d4">
+      <div class="diet-tbd-icon">🌿</div>
+      <div class="diet-tbd-title">Diet Protocol — TBD</div>
+      <div class="diet-tbd-text">Full diet plan to be confirmed with <strong>Connie at 17 Hands Nutrition</strong> after purchase. Budget placeholder: ~$60/month for feed.</div>
+    </div>
+
+    <!-- Psyllium protocol -->
+    <div class="card d4">
+      <div class="card-header">
+        <div class="card-title">Psyllium Protocol</div>
+        <span class="badge badge-green">Year Round · Florida</span>
+      </div>
+      <div class="protocol-grid">
+        <div class="protocol-item">
+          <div class="protocol-val">7 days</div>
+          <div class="protocol-lbl">ON — every month</div>
+        </div>
+        <div class="protocol-item">
+          <div class="protocol-val">3 weeks</div>
+          <div class="protocol-lbl">OFF — every month</div>
+        </div>
+        <div class="protocol-item">
+          <div class="protocol-val">2–3 tbsp</div>
+          <div class="protocol-lbl">Daily dose</div>
+        </div>
+        <div class="protocol-item">
+          <div class="protocol-val">~$10</div>
+          <div class="protocol-lbl">Per month · Metamucil</div>
+        </div>
+      </div>
+      <div class="warn-box">
+        <span>⚠️</span>
+        <span>Non-negotiable for Florida sandy pasture. Prevents sand colic. Use unflavored Metamucil or SandClear — same active ingredient.</span>
+      </div>
+    </div>
+
+    <!-- Dewormer checklist -->
+    <div class="card d5">
+      <div class="card-header">
+        <div class="card-title">Dewormer Schedule 🪱</div>
+        <span class="badge badge-amber">Quarterly</span>
+      </div>
+      <div class="deworm-list">
+        <div class="deworm-item checked" onclick="toggleDeworm(this)">
+          <div class="deworm-checkbox">✓</div>
+          <div class="deworm-label">March 2026</div>
+          <div class="deworm-date">Completed</div>
+        </div>
+        <div class="deworm-item" onclick="toggleDeworm(this)">
+          <div class="deworm-checkbox"></div>
+          <div class="deworm-label">June 2026</div>
+          <div class="deworm-date">Due Jun 1</div>
+        </div>
+        <div class="deworm-item" onclick="toggleDeworm(this)">
+          <div class="deworm-checkbox"></div>
+          <div class="deworm-label">September 2026</div>
+          <div class="deworm-date">Due Sep 1</div>
+        </div>
+        <div class="deworm-item" onclick="toggleDeworm(this)">
+          <div class="deworm-checkbox"></div>
+          <div class="deworm-label">December 2026</div>
+          <div class="deworm-date">Due Dec 1</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Vet calendar -->
+    <div class="card d6">
+      <div class="card-header">
+        <div class="card-title">Vet Calendar 2026</div>
+        <span class="badge badge-amber">Annual ~$560–$705</span>
+      </div>
+      <div class="vet-calendar">
+        <div class="vet-item done">
+          <div class="vet-month">MAR<br>20</div>
+          <div class="vet-divider"></div>
+          <div class="vet-content">
+            <div class="vet-title">Spring Vaccines</div>
+            <div class="vet-detail">EWT · West Nile · Rhino Flu · Exam · Farm call</div>
+          </div>
+          <div class="vet-cost">$170 ✅</div>
+        </div>
+        <div class="vet-item">
+          <div class="vet-month">JUL</div>
+          <div class="vet-divider"></div>
+          <div class="vet-content">
+            <div class="vet-title">Dental Float</div>
+            <div class="vet-detail">Annual · may need sedation (+$25–50)</div>
+          </div>
+          <div class="vet-cost">~$150–$250</div>
+        </div>
+        <div class="vet-item">
+          <div class="vet-month">SEP<br>18</div>
+          <div class="vet-divider"></div>
+          <div class="vet-content">
+            <div class="vet-title">Fall Boosters</div>
+            <div class="vet-detail">EWT · West Nile · Rhino Flu Calvenza</div>
+          </div>
+          <div class="vet-cost">~$140–$155</div>
+        </div>
+        <div class="vet-item">
+          <div class="vet-month">NOV<br>11</div>
+          <div class="vet-divider"></div>
+          <div class="vet-content">
+            <div class="vet-title">Strangles + Coggins</div>
+            <div class="vet-detail">Pinnacle IN · Coggins EIA AGID (Antech L111)</div>
+          </div>
+          <div class="vet-cost">~$100–$130</div>
+        </div>
+      </div>
+      <div class="info-box">
+        <span>ℹ️</span>
+        <span>Farm call split 4+ ways = ~$15 your share per visit · Dr. Danielle McCallister · Orlando Equine · (407) 489-7270</span>
+      </div>
+    </div>
+
+    <!-- Show names -->
+    <div class="card d7">
+      <div class="card-header">
+        <div class="card-title">Show Name Ideas ⭐️</div>
+        <span class="badge badge-moon">TBD</span>
+      </div>
+      <div class="show-names">
+        <div class="show-name-item"><span class="show-name-star">✦</span> Midnight Gypsy Moon</div>
+        <div class="show-name-item"><span class="show-name-star">✦</span> Black Velvet Gypsy</div>
+        <div class="show-name-item"><span class="show-name-star">✦</span> Velvet Underground</div>
+        <div class="show-name-item"><span class="show-name-star">✦</span> Gypsy Stardust</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       SECTION 3 — LIFE ADMIN
+  ═════════════════════════════════════════════ -->
+  <div class="section" id="admin">
+    <div class="section-header d1">
+      <span class="section-icon">📅</span>
+      <h2 class="section-title">Life Admin</h2>
+      <span class="section-label">Reminders & Renewals</span>
+    </div>
+
+    <div class="card d2">
+      <div class="card-header">
+        <div class="card-title">Upcoming Renewals & Reminders</div>
+        <span class="badge badge-amber">2026</span>
+      </div>
+      <div class="bill-list">
+        <div class="bill-item">
+          <span class="bill-name">📱 Mint Mobile · Phone</span>
+          <div class="bill-right">
+            <span class="bill-date">Every 3 months · $129.39</span>
+          </div>
+        </div>
+        <div class="bill-item">
+          <span class="bill-name">🚗 Progressive · Auto Insurance</span>
+          <div class="bill-right">
+            <span class="bill-date">Nov 16, 2026</span>
+            <span class="bill-flag flag-amber">Renews</span>
+          </div>
+        </div>
+        <div class="bill-item">
+          <span class="bill-name">📺 Apple TV</span>
+          <div class="bill-right">
+            <span class="bill-date">End of F1 Season</span>
+            <span class="bill-flag flag-rust">Cancel</span>
+          </div>
+        </div>
+        <div class="bill-item">
+          <span class="bill-name">🐴 Hartford Horse Insurance</span>
+          <div class="bill-right">
+            <span class="bill-date">Annual · $373/year</span>
+            <span class="bill-flag flag-amber">Apply after healthy</span>
+          </div>
+        </div>
+        <div class="bill-item">
+          <span class="bill-name">💉 Gypsy · Dental Float</span>
+          <div class="bill-right">
+            <span class="bill-date">July 2026</span>
+            <span class="bill-flag flag-amber">~$150–$250</span>
+          </div>
+        </div>
+        <div class="bill-item">
+          <span class="bill-name">💉 Gypsy · Fall Boosters</span>
+          <div class="bill-right">
+            <span class="bill-date">Sep 18, 2026</span>
+            <span class="bill-flag flag-amber">~$140–$155</span>
+          </div>
+        </div>
+        <div class="bill-item">
+          <span class="bill-name">💉 Gypsy · Strangles + Coggins</span>
+          <div class="bill-right">
+            <span class="bill-date">Nov 11, 2026</span>
+            <span class="bill-flag flag-amber">~$100–$130</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="footer">Shariti's Command Center · Updated May 2026 · 🌙</div>
+
+<script>
+  // Season tabs
+  function showSeason(season) {
+    document.querySelectorAll('.season-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.season-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('season-' + season).classList.add('active');
+    event.target.classList.add('active');
+  }
+
+  // Dewormer checklist
+  function toggleDeworm(item) {
+    item.classList.toggle('checked');
+    const box = item.querySelector('.deworm-checkbox');
+    const date = item.querySelector('.deworm-date');
+    if (item.classList.contains('checked')) {
+      box.textContent = '✓';
+      date.textContent = 'Completed';
+    } else {
+      box.textContent = '';
+      const label = item.querySelector('.deworm-label').textContent;
+      if (label.includes('June')) date.textContent = 'Due Jun 1';
+      else if (label.includes('September')) date.textContent = 'Due Sep 1';
+      else if (label.includes('December')) date.textContent = 'Due Dec 1';
+    }
+  }
+
+  // Active nav on scroll
+  const sections = document.querySelectorAll('.section');
+  const navLinks = document.querySelectorAll('.nav-links a');
+
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop - 80;
+      if (window.scrollY >= sectionTop) current = section.getAttribute('id');
+    });
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === '#' + current) link.classList.add('active');
+    });
+  });
+</script>
+
+</body>
+</html>
