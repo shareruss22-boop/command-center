@@ -19,15 +19,11 @@
 html{scroll-behavior:smooth}
 body{background:var(--cream);font-family:'Jost',sans-serif;color:var(--ink);min-height:100vh;font-size:16px}
 body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:0}
-
 .page{display:none;min-height:100vh;position:relative;z-index:1}
 .page.active{display:block;animation:fadeIn 0.3s ease}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-
 .back-btn{display:flex;align-items:center;gap:8px;padding:14px 20px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);cursor:pointer;border:none;background:rgba(245,240,232,0.93);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);width:100%;position:sticky;top:0;z-index:50;font-weight:500}
 .back-btn:hover{color:var(--earth)}
-
-/* HOME */
 #home{display:flex;flex-direction:column;min-height:100vh;padding:0 0 60px}
 .home-hero{padding:64px 24px 40px;text-align:center;animation:fadeIn 0.6s ease}
 .home-eyebrow{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.25em;text-transform:uppercase;color:var(--hay-dark);margin-bottom:16px;font-weight:500}
@@ -48,17 +44,13 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .home-card.admin{border-left:4px solid var(--rust)}
 .home-date{text-align:center;margin-top:32px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.12em;color:var(--muted);opacity:0.55}
 .d1{animation-delay:0.05s}.d2{animation-delay:0.12s}.d3{animation-delay:0.19s}
-
-/* PAGE HEADER */
 .page-header{padding:32px 24px 24px;border-bottom:1px solid var(--border);background:var(--warm-white)}
 .page-eyebrow{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--hay-dark);margin-bottom:8px;font-weight:500}
 .page-title{font-family:'Cormorant Garamond',serif;font-size:clamp(34px,7vw,50px);font-weight:600;color:var(--earth);line-height:1.05}
 .page-title em{color:var(--forest);font-style:italic}
-
 .content{max-width:680px;margin:0 auto;padding:24px 20px 80px}
 .section{margin-bottom:36px}
 .section-label{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--hay-dark);margin-bottom:14px;font-weight:500}
-
 .card{background:var(--warm-white);border:1px solid var(--border);border-radius:16px;padding:20px 22px;margin-bottom:14px;box-shadow:0 2px 16px var(--shadow);animation:fadeIn 0.4s ease both}
 .card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
 .card-title{font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:700;color:var(--earth)}
@@ -67,8 +59,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .badge-amber{background:#F0E4C8;color:var(--hay-dark)}
 .badge-rust{background:#F2DDD6;color:var(--rust)}
 .badge-moon{background:#EDE5D8;color:var(--earth)}
-
-/* EDITABLE BUDGET */
 .budget-list{display:flex;flex-direction:column}
 .budget-line{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px dashed var(--border)}
 .budget-line:last-child{border-bottom:none}
@@ -88,8 +78,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .total-row{display:flex;justify-content:space-between;align-items:center;padding:14px 0 4px;border-top:2px solid var(--border);margin-top:8px}
 .total-label{font-size:17px;font-weight:700;color:var(--ink)}
 .total-val{font-family:'DM Mono',monospace;font-size:19px;font-weight:500;color:var(--earth)}
-
-/* CALLOUTS */
 .callout{border-radius:16px;padding:20px 22px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:16px;box-shadow:0 2px 16px var(--shadow);animation:fadeIn 0.4s ease both}
 .callout-green{background:linear-gradient(135deg,#EAF4EB,#D8EDDA);border:1px solid #B5D9B8}
 .callout-amber{background:linear-gradient(135deg,#F5EDD8,#EDE0C4);border:1px solid #D9C49A}
@@ -104,8 +92,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .callout-amount.amber{color:var(--hay-dark)}
 .callout-amount.moon{color:var(--earth)}
 .callout-amount small{font-size:12px;opacity:0.65;display:block}
-
-/* INCOME BAR */
 .income-card{background:var(--warm-white);border:1px solid var(--border);border-radius:16px;padding:20px 22px;margin-bottom:14px;box-shadow:0 2px 16px var(--shadow)}
 .income-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
 .income-lbl{font-family:'Cormorant Garamond',serif;font-size:19px;color:var(--earth);font-weight:600}
@@ -115,23 +101,17 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .bar-legend{display:flex;gap:14px;flex-wrap:wrap}
 .legend-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);font-family:'DM Mono',monospace}
 .legend-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
-
-/* SEASON TABS */
 .season-tabs{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
 .season-tab{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;padding:8px 14px;border-radius:20px;cursor:pointer;border:1px solid var(--border);background:var(--cream);color:var(--muted);transition:all 0.2s;font-weight:500}
 .season-tab.active{background:var(--forest);color:#fff;border-color:var(--forest)}
 .season-panel{display:none}
 .season-panel.active{display:block}
-
-/* SAVINGS GRID */
 .savings-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
 .savings-item{background:var(--cream);border-radius:12px;padding:16px;border:1px solid var(--border)}
 .savings-icon{font-size:22px;margin-bottom:8px}
 .savings-name{font-size:13px;color:var(--muted);margin-bottom:4px;font-weight:400}
 .savings-amt{font-family:'DM Mono',monospace;font-size:20px;color:var(--forest);font-weight:500}
 .savings-note{font-size:12px;color:var(--muted);margin-top:4px}
-
-/* GYPSY */
 .gypsy-hero{background:linear-gradient(150deg,#EEF5EE,var(--warm-white));border:1.5px solid var(--forest-muted);border-radius:16px;padding:26px 22px;margin-bottom:14px;box-shadow:0 2px 16px var(--shadow)}
 .gypsy-tag{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--forest);background:#D6E8D6;display:inline-block;padding:4px 12px;border-radius:20px;margin-bottom:14px;font-weight:500}
 .gypsy-name{font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:700;color:var(--earth);margin-bottom:4px}
@@ -140,23 +120,19 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .stat-item{background:var(--cream);border-radius:10px;padding:14px;border:1px solid var(--border);text-align:center}
 .stat-val{font-family:'DM Mono',monospace;font-size:20px;color:var(--forest);font-weight:500;display:block}
 .stat-lbl{font-size:12px;color:var(--muted);margin-top:4px}
-
 .care-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
 .care-item{background:var(--warm-white);border:1px solid var(--border);border-radius:12px;padding:16px;box-shadow:0 2px 8px var(--shadow)}
 .care-role{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--hay-dark);margin-bottom:6px;font-weight:500}
 .care-name{font-size:15px;font-weight:600;color:var(--ink);margin-bottom:4px}
 .care-detail{font-size:13px;color:var(--muted);line-height:1.6}
-
 .diet-tbd{background:linear-gradient(135deg,#F5EDD8,#EDE0C4);border:1px solid #D9C49A;border-radius:16px;padding:28px 22px;text-align:center;margin-bottom:14px}
 .diet-tbd-icon{font-size:36px;margin-bottom:12px}
 .diet-tbd-title{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--earth);margin-bottom:8px;font-weight:700}
 .diet-tbd-text{font-size:14px;color:var(--hay-dark);line-height:1.7}
-
 .protocol-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .protocol-item{background:var(--cream);border-radius:10px;padding:14px;border:1px solid var(--border);text-align:center}
 .protocol-val{font-family:'DM Mono',monospace;font-size:18px;color:var(--forest);font-weight:500;margin-bottom:4px}
 .protocol-lbl{font-size:12px;color:var(--muted)}
-
 .deworm-list{display:flex;flex-direction:column;gap:10px}
 .deworm-item{display:flex;align-items:center;gap:14px;background:var(--warm-white);border:1px solid var(--border);border-radius:12px;padding:16px;cursor:pointer;transition:all 0.2s;box-shadow:0 2px 8px var(--shadow)}
 .deworm-item:hover{border-color:var(--forest-muted)}
@@ -167,7 +143,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .deworm-item.checked .deworm-label{color:var(--forest)}
 .deworm-date{font-family:'DM Mono',monospace;font-size:12px;color:var(--muted)}
 .deworm-item.checked .deworm-date{color:var(--forest-muted)}
-
 .vet-list{display:flex;flex-direction:column;gap:10px}
 .vet-item{display:flex;align-items:center;gap:14px;background:var(--warm-white);border:1px solid var(--border);border-radius:12px;padding:16px;box-shadow:0 2px 8px var(--shadow)}
 .vet-item.done{opacity:0.6}
@@ -177,11 +152,9 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .vet-title{font-size:15px;font-weight:600;color:var(--ink);margin-bottom:3px}
 .vet-detail{font-size:13px;color:var(--muted);line-height:1.5}
 .vet-cost{font-family:'DM Mono',monospace;font-size:13px;color:var(--forest);font-weight:500;white-space:nowrap}
-
 .show-names{display:flex;flex-direction:column;gap:10px}
 .show-name-item{display:flex;align-items:center;gap:12px;padding:14px 16px;background:var(--cream);border-radius:12px;border:1px solid var(--border);font-family:'Cormorant Garamond',serif;font-size:21px;color:var(--earth);font-style:italic}
 .show-name-star{color:var(--hay);font-style:normal;font-size:16px}
-
 .bill-list{display:flex;flex-direction:column;gap:8px}
 .bill-item{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;background:var(--cream);border-radius:12px;border:1px solid var(--border);flex-wrap:wrap;gap:8px}
 .bill-name{font-size:15px;color:var(--ink);font-weight:400}
@@ -190,12 +163,12 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .bill-flag{font-size:11px;padding:3px 10px;border-radius:10px;font-family:'DM Mono',monospace;letter-spacing:0.08em;font-weight:500}
 .flag-amber{background:#F0E4C8;color:var(--hay-dark)}
 .flag-rust{background:#F2DDD6;color:var(--rust)}
-
 .info-box{background:#EFF6EF;border:1px solid #B5D9B8;border-radius:10px;padding:12px 14px;font-size:13px;color:var(--forest);margin-top:12px;display:flex;gap:8px;align-items:flex-start;line-height:1.6}
 .warn-box{background:#FBF0EC;border:1px solid #F2C8BC;border-radius:10px;padding:12px 14px;font-size:13px;color:var(--rust);margin-top:12px;display:flex;gap:8px;align-items:flex-start;line-height:1.6}
-
 .footer{text-align:center;padding:28px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.12em;color:var(--muted);opacity:0.5}
-
+/* Save indicator */
+.save-toast{position:fixed;bottom:24px;right:24px;background:var(--forest);color:white;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.1em;padding:10px 18px;border-radius:20px;opacity:0;transition:opacity 0.3s;z-index:999;pointer-events:none;}
+.save-toast.show{opacity:1;}
 @media(max-width:480px){
   .savings-grid{grid-template-columns:1fr}
   .care-grid{grid-template-columns:1fr}
@@ -205,6 +178,8 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 </style>
 </head>
 <body>
+
+<div class="save-toast" id="save-toast">✓ Saved</div>
 
 <!-- HOME -->
 <div class="page active" id="home">
@@ -250,7 +225,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
     <h2 class="page-title">💰 Personal <em>Finance</em></h2>
   </div>
   <div class="content">
-
     <div class="section">
       <div class="section-label">Income</div>
       <div class="income-card">
@@ -274,7 +248,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
         </div>
       </div>
     </div>
-
     <div class="section">
       <div class="section-label">Fixed Monthly Expenses</div>
       <div class="card">
@@ -283,7 +256,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
         <div class="total-row"><span class="total-label">Total Fixed</span><span class="total-val" id="fixed-total">$0.00</span></div>
       </div>
     </div>
-
     <div class="section">
       <div class="section-label">Horse Budget · Seasonal</div>
       <div class="card">
@@ -316,7 +288,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
         <div class="info-box"><span>🌿</span><span>Horstmeyer Farm & Garden · Sanford FL · (407) 322-1235 · T/A 2-string $16.99/bale · Coastal $9.99/bale · Free delivery $400+</span></div>
       </div>
     </div>
-
     <div class="section">
       <div class="section-label">Flexible Spending</div>
       <div class="card">
@@ -325,7 +296,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
         <div class="total-row"><span class="total-label">Total Flexible</span><span class="total-val" id="flex-total">$0.00</span></div>
       </div>
     </div>
-
     <div class="section">
       <div class="section-label">Savings & Goals</div>
       <div class="card">
@@ -338,10 +308,8 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
         <div class="total-row"><span class="total-label">Total Savings & Goals</span><span class="total-val">$900.00</span></div>
       </div>
     </div>
-
     <div class="callout callout-green"><div class="callout-text green"><strong>Monthly Buffer</strong>After all expenses, horse, flexible & savings</div><div class="callout-amount green">~$286<small>/ month</small></div></div>
     <div class="callout callout-moon"><div class="callout-text moon"><strong>Annual Savings & Goals</strong>Lessons + vacation + HYSA + vet + buffer</div><div class="callout-amount moon">~$14,232<small>/ year</small></div></div>
-
   </div>
   <div class="footer">Shariti's Command Center · 🌙</div>
 </div>
@@ -354,7 +322,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
     <h2 class="page-title">🐴 <em>Gypsy</em> 🌙</h2>
   </div>
   <div class="content">
-
     <div class="gypsy-hero">
       <div class="gypsy-tag">🩵 BLM Mustang Mare</div>
       <div class="gypsy-name">Gypsy 🌙</div>
@@ -366,7 +333,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       </div>
       <div style="margin-top:14px;font-size:14px;color:var(--muted);font-style:italic;">Born July 5, 2017 · 🎂 Next birthday in July</div>
     </div>
-
     <div class="section">
       <div class="section-label">Care Team</div>
       <div class="care-grid">
@@ -376,7 +342,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
         <div class="care-item"><div class="care-role">Insurance</div><div class="care-name">Hartford Insurance</div><div class="care-detail">Major Medical $7,500<br>+ Emergency Colic Surgery<br>~$31/mo · $373/year</div></div>
       </div>
     </div>
-
     <div class="section">
       <div class="section-label">Diet & Nutrition</div>
       <div class="diet-tbd">
@@ -395,7 +360,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
         <div class="warn-box"><span>⚠️</span><span>Non-negotiable for Florida sandy pasture. Prevents sand colic. Use unflavored Metamucil or SandClear.</span></div>
       </div>
     </div>
-
     <div class="section">
       <div class="section-label">Dewormer Schedule 🪱</div>
       <div class="card">
@@ -407,7 +371,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
         </div>
       </div>
     </div>
-
     <div class="section">
       <div class="section-label">Vet Calendar 2026</div>
       <div class="card">
@@ -420,7 +383,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
         <div class="info-box"><span>ℹ️</span><span>Farm call split 4+ ways = ~$15 your share · Dr. McCallister · Orlando Equine · (407) 489-7270</span></div>
       </div>
     </div>
-
     <div class="section">
       <div class="section-label">Show Name Ideas ⭐️</div>
       <div class="card">
@@ -432,7 +394,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
         </div>
       </div>
     </div>
-
   </div>
   <div class="footer">Shariti's Command Center · 🌙</div>
 </div>
@@ -464,6 +425,39 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 </div>
 
 <script>
+// ── SUPABASE ──────────────────────────────────────────────────────────────────
+const SUPA_URL='https://kfxqqjydkaykebbwlbbh.supabase.co';
+const SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtmeHFxanlka2F5a2ViYndsYmJoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2Nzk3NDEsImV4cCI6MjA5NDI1NTc0MX0.IHYVCoIUfEZ9Sj9b3E7u57ZBbnvy4cVBUjDRPW2UvOo';
+const DB_ID='command_center_data';
+
+async function supaLoad(){
+  try{
+    const r=await fetch(`${SUPA_URL}/rest/v1/command_center?id=eq.${DB_ID}&select=data`,{
+      headers:{'apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY}
+    });
+    const rows=await r.json();
+    return rows&&rows.length>0?JSON.parse(rows[0].data):null;
+  }catch(e){console.warn('Supabase load failed',e);return null;}
+}
+
+async function supaSave(data){
+  try{
+    await fetch(`${SUPA_URL}/rest/v1/command_center`,{
+      method:'POST',
+      headers:{'apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY,'Content-Type':'application/json','Prefer':'resolution=merge-duplicates'},
+      body:JSON.stringify({id:DB_ID,data:JSON.stringify(data)})
+    });
+    showToast();
+  }catch(e){console.warn('Supabase save failed',e);}
+}
+
+function showToast(){
+  const t=document.getElementById('save-toast');
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),1800);
+}
+
+// ── PAGE NAV ──────────────────────────────────────────────────────────────────
 function showPage(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById(id).classList.add('active');
@@ -477,28 +471,57 @@ function showSeason(season,el){
   el.classList.add('active');
 }
 
+// ── SAVE / LOAD ──────────────────────────────────────────────────────────────
+function getListData(listId){
+  const list=document.getElementById(listId);
+  if(!list) return [];
+  return Array.from(list.querySelectorAll('.budget-line')).map(line=>[
+    line.querySelector('.budget-label-input').value,
+    parseFloat(line.querySelector('.budget-amount-input').value)||0,
+    line.querySelector('.budget-note-input').value
+  ]);
+}
+
+async function saveAll(){
+  const state={
+    fixed:getListData('fixed-list'),
+    horseSummer:getListData('horse-summer-list'),
+    horseFall:getListData('horse-fall-list'),
+    horseWinter:getListData('horse-winter-list'),
+    horseSpring:getListData('horse-spring-list'),
+    flex:getListData('flex-list'),
+    deworm:Array.from(document.querySelectorAll('.deworm-item')).map(i=>i.classList.contains('checked'))
+  };
+  try{localStorage.setItem('cc_state',JSON.stringify(state));}catch(e){}
+  await supaSave(state);
+}
+
+// ── DEWORMER ──────────────────────────────────────────────────────────────────
 function toggleDeworm(item){
   item.classList.toggle('checked');
   const box=item.querySelector('.deworm-checkbox');
   const date=item.querySelector('.deworm-date');
   if(item.classList.contains('checked')){
     box.textContent='✓'; date.textContent='Completed';
-  } else {
+  }else{
     box.textContent='';
     const lbl=item.querySelector('.deworm-label').textContent;
     if(lbl.includes('June')) date.textContent='Due Jun 1';
     else if(lbl.includes('September')) date.textContent='Due Sep 1';
     else if(lbl.includes('December')) date.textContent='Due Dec 1';
+    else if(lbl.includes('March')) date.textContent='Due Mar 1';
   }
+  saveAll();
 }
 
+// ── BUDGET LINES ──────────────────────────────────────────────────────────────
 function recalcTotal(totalId){
   const el=document.getElementById(totalId);
   if(!el) return;
   const panel=el.closest('.season-panel')||el.closest('.card');
   if(!panel) return;
   let sum=0;
-  panel.querySelectorAll('.budget-amount-input').forEach(i=>{ sum+=parseFloat(i.value)||0; });
+  panel.querySelectorAll('.budget-amount-input').forEach(i=>{sum+=parseFloat(i.value)||0;});
   el.textContent='$'+sum.toFixed(2);
 }
 
@@ -513,8 +536,10 @@ function makeLine(label,amount,note,totalId){
     <input class="budget-amount-input" type="number" step="0.01" value="${amount}" placeholder="0.00">
     <button class="delete-btn" title="Remove">×</button>
   `;
-  line.querySelector('.budget-amount-input').addEventListener('input',()=>recalcTotal(totalId));
-  line.querySelector('.delete-btn').addEventListener('click',()=>{ line.remove(); recalcTotal(totalId); });
+  line.querySelector('.budget-amount-input').addEventListener('input',()=>{recalcTotal(totalId);saveAll();});
+  line.querySelector('.budget-label-input').addEventListener('change',saveAll);
+  line.querySelector('.budget-note-input').addEventListener('change',saveAll);
+  line.querySelector('.delete-btn').addEventListener('click',()=>{line.remove();recalcTotal(totalId);saveAll();});
   return line;
 }
 
@@ -523,14 +548,17 @@ function addLine(listId,totalId){
   const line=makeLine('',0,'',totalId);
   list.appendChild(line);
   line.querySelector('.budget-label-input').focus();
+  saveAll();
 }
 
 function populate(listId,totalId,items){
   const list=document.getElementById(listId);
+  list.innerHTML='';
   items.forEach(([l,a,n])=>list.appendChild(makeLine(l,a,n||'',totalId)));
   recalcTotal(totalId);
 }
 
+// ── DEFAULTS & APPLY STATE ────────────────────────────────────────────────────
 const base=[
   ['Board (incl. feeding fee)',425,''],
   ['Feed (TBD — Connie @ 17 Hands)',60,''],
@@ -539,29 +567,56 @@ const base=[
   ['Insurance · Hartford',31,''],
 ];
 
-populate('fixed-list','fixed-total',[
-  ['Auto payment',667,'JP Morgan Chase'],
-  ['Auto insurance · Progressive',143,'Renews Nov 16, 2026'],
-  ['Student loans',99,''],
-  ['Taxes',100,''],
-  ['Phone · Mint Mobile',43.13,'$129.39 every 3 months'],
-  ['Tolls',120,''],
-  ['Apple Music',10.99,''],
-  ['Apple TV',12.99,'Cancel end of F1 season'],
-  ['iCloud',9.99,''],
-  ['Monarch Budget',14.99,''],
-  ['Wyze Cam Plus',9.99,''],
-]);
-populate('horse-summer-list','horse-summer-total',[...base,['Hay · T/A + Coastal · ~12–14 bales',162,'Horstmeyer Farm']]);
-populate('horse-fall-list','horse-fall-total',[...base,['Hay · T/A + Coastal · ~14–16 bales',189,'Horstmeyer Farm']]);
-populate('horse-winter-list','horse-winter-total',[...base,['Hay · T/A + Coastal · ~16–18 bales',216,'Horstmeyer Farm']]);
-populate('horse-spring-list','horse-spring-total',[...base,['Hay · T/A + Coastal · ~14–16 bales',189,'Horstmeyer Farm']]);
-populate('flex-list','flex-total',[
-  ['Groceries',300,''],
-  ['Dining & Bars',150,''],
-  ['Shopping',150,''],
-  ['Horse miscellaneous',75,'Tack, supplies, extras'],
-]);
+const DEFAULTS={
+  fixed:[
+    ['Auto payment',667,'JP Morgan Chase'],
+    ['Auto insurance · Progressive',143,'Renews Nov 16, 2026'],
+    ['Student loans',99,''],['Taxes',100,''],
+    ['Phone · Mint Mobile',43.13,'$129.39 every 3 months'],
+    ['Tolls',120,''],['Apple Music',10.99,''],
+    ['Apple TV',12.99,'Cancel end of F1 season'],
+    ['iCloud',9.99,''],['Monarch Budget',14.99,''],['Wyze Cam Plus',9.99,''],
+  ],
+  horseSummer:[...base,['Hay · T/A + Coastal · ~12–14 bales',162,'Horstmeyer Farm']],
+  horseFall:[...base,['Hay · T/A + Coastal · ~14–16 bales',189,'Horstmeyer Farm']],
+  horseWinter:[...base,['Hay · T/A + Coastal · ~16–18 bales',216,'Horstmeyer Farm']],
+  horseSpring:[...base,['Hay · T/A + Coastal · ~14–16 bales',189,'Horstmeyer Farm']],
+  flex:[
+    ['Groceries',300,''],['Dining & Bars',150,''],
+    ['Shopping',150,''],['Horse miscellaneous',75,'Tack, supplies, extras'],
+  ],
+  deworm:[true,false,false,false]
+};
+
+function applyState(state){
+  populate('fixed-list','fixed-total',state.fixed||DEFAULTS.fixed);
+  populate('horse-summer-list','horse-summer-total',state.horseSummer||DEFAULTS.horseSummer);
+  populate('horse-fall-list','horse-fall-total',state.horseFall||DEFAULTS.horseFall);
+  populate('horse-winter-list','horse-winter-total',state.horseWinter||DEFAULTS.horseWinter);
+  populate('horse-spring-list','horse-spring-total',state.horseSpring||DEFAULTS.horseSpring);
+  populate('flex-list','flex-total',state.flex||DEFAULTS.flex);
+  const dewormItems=document.querySelectorAll('.deworm-item');
+  const dewormDates=['Completed','Due Jun 1','Due Sep 1','Due Dec 1'];
+  (state.deworm||DEFAULTS.deworm).forEach((checked,i)=>{
+    if(!dewormItems[i]) return;
+    if(checked){
+      dewormItems[i].classList.add('checked');
+      dewormItems[i].querySelector('.deworm-checkbox').textContent='✓';
+      dewormItems[i].querySelector('.deworm-date').textContent='Completed';
+    }else{
+      dewormItems[i].classList.remove('checked');
+      dewormItems[i].querySelector('.deworm-checkbox').textContent='';
+      dewormItems[i].querySelector('.deworm-date').textContent=dewormDates[i];
+    }
+  });
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+(async()=>{
+  let state=await supaLoad();
+  if(!state){try{const s=localStorage.getItem('cc_state');if(s)state=JSON.parse(s);}catch(e){}}
+  applyState(state||DEFAULTS);
+})();
 </script>
 </body>
 </html>
